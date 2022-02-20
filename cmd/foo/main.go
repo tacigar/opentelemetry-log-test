@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -24,6 +23,11 @@ func main() {
 			log.Printf("Error shutting down trace provider: %v", err)
 		}
 	}()
+
+	logger, err := otelog.NewZapLogger()
+	if err != nil {
+		panic(err.Error())
+	}
 
 	client := otelog.GetHTTPClient()
 
@@ -48,7 +52,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		fmt.Println(span.SpanContext().TraceID())
+		logger.Info(otelog.LogContent{Message: "Success", Span: span})
 		w.Write([]byte(body))
 	}, "foo"))
 
