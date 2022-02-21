@@ -9,6 +9,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/tacigar/opentelemetry-log-test/internal/otelog"
+	"go.opentelemetry.io/contrib/instrumentation/net/http/otelhttp"
 	"go.opentelemetry.io/otel/trace"
 )
 
@@ -29,7 +30,7 @@ func main() {
 		panic(err.Error())
 	}
 
-	client := otelog.GetHTTPClient()
+	client := otelhttp.DefaultClient
 
 	r := chi.NewRouter()
 	r.Use(middleware.Logger)

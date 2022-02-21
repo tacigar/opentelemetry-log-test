@@ -41,9 +41,3 @@ func WrapHandler(f func(w http.ResponseWriter, req *http.Request), operation str
 		operation,
 	)
 }
-
-func GetHTTPClient() http.Client {
-	return http.Client{
-		Transport: otelhttp.NewTransport(http.DefaultTransport),
-	}
-}
